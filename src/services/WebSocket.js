@@ -57,35 +57,35 @@ class WebSocketService {
   }
 
   newChatMessage(message) {
-    this.sendMessage({ command: 'new_message', from: message.from, text: message.text }); 
+    this.sendMessage({ command: 'new_message', from: message.from, text: message.text });
   }
 
   addCallbacks(messagesCallback, newMessageCallback) {
     this.callbacks['messages'] = messagesCallback;
     this.callbacks['new_message'] = newMessageCallback;
   }
-  
+
   sendMessage(data) {
     try {
       this.socketRef.send(JSON.stringify({ ...data }));
     }
-    catch(err) {
+    catch (err) {
       console.log(err.message);
-    }  
+    }
   }
 
   state() {
     return this.socketRef.readyState;
   }
 
-   waitForSocketConnection(callback){
+  waitForSocketConnection(callback) {
     const socket = this.socketRef;
     const recursion = this.waitForSocketConnection;
     setTimeout(
       function () {
         if (socket.readyState === 1) {
           console.log("Connection is made")
-          if(callback != null){
+          if (callback != null) {
             callback();
           }
           return;

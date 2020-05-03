@@ -3,11 +3,18 @@ import './App.css';
 import InitChat from './components/InitChat'
 import Chat from './components/Chat'
 import WebSocketInstance from './services/WebSocket'
+import StressTest from './components/StressTest/StressTest'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       username: '',
       loggedIn: false
     };
@@ -19,25 +26,38 @@ export default class App extends Component {
   }
 
   render() {
-    const { 
+    const {
       loggedIn,
       username
     } = this.state;
 
     return (
-      <div className="App">
-        { 
-          loggedIn ?
-          <Chat
-            currentUser={username}
-          />
-          :
-          <InitChat
-            onSubmit={this.handleLoginSubmit}
-            usernameChangeHandler={this.usernameChangeHandler}
-          />
-        }
-      </div>
+      <Router>
+
+        <div className="App">
+          <Switch>
+            <Route path="/test" exact>
+              <StressTest />
+            </Route>
+            <Route path="/" exact>
+
+              {
+                loggedIn ?
+                  <Chat
+                    currentUser={username}
+                  />
+                  :
+                  <InitChat
+                    onSubmit={this.handleLoginSubmit}
+                    usernameChangeHandler={this.usernameChangeHandler}
+                  />
+              }
+            </Route>
+
+          </Switch>
+
+        </div>
+      </Router>
     );
   }
 }
