@@ -6,7 +6,9 @@ import WebSocketInstance from '../../services/WebSocket'
 export default class Chat extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      message: ''
+    }
 
     this.waitForSocketConnection(() => {
       WebSocketInstance.initChatUser(this.props.currentUser);
@@ -28,7 +30,7 @@ export default class Chat extends Component {
           console.log("wait for connection...")
           component.waitForSocketConnection(callback);
         }
-    }, 100); // wait 100 milisecond for the connection...
+      }, 100); // wait 100 milisecond for the connection...
   }
 
   componentDidMount() {
@@ -48,14 +50,14 @@ export default class Chat extends Component {
   }
 
   addMessage(message) {
-    this.setState({ messages: [...this.state.messages, message]});
+    this.setState({ messages: [...this.state.messages, message] });
   }
 
   setMessages(messages) {
-    this.setState({ messages: messages.reverse()});
+    this.setState({ messages: messages.reverse() });
   }
 
-  messageChangeHandler = (event) =>  {
+  messageChangeHandler = (event) => {
     this.setState({
       message: event.target.value
     })
@@ -75,7 +77,7 @@ export default class Chat extends Component {
 
   renderMessages = (messages) => {
     const currentUser = this.props.currentUser;
-    return messages.map((message, i) => <li key={message.id} className={message.author === currentUser ? 'me' : 'him'}> <h4 className='author'>{ message.author } </h4><p>{ message.content }</p></li>);
+    return messages.map((message, i) => <li key={message.id} className={message.author === currentUser ? 'me' : 'him'}> <h4 className='author'>{message.author} </h4><p>{message.content}</p></li>);
   }
 
   render() {
@@ -87,10 +89,10 @@ export default class Chat extends Component {
           <h1>Chatting as {currentUser} </h1>
           <h3>Displaying only the last 50 messages</h3>
           <ul ref={(el) => { this.messagesEnd = el; }}>
-           { 
-              messages && 
-              this.renderMessages(messages) 
-           }
+            {
+              messages &&
+              this.renderMessages(messages)
+            }
           </ul>
         </div>
         <div className='container message-form'>

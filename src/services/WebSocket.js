@@ -67,7 +67,9 @@ class WebSocketService {
 
   sendMessage(data) {
     try {
-      this.socketRef.send(JSON.stringify({ ...data }));
+      if (this.socketRef.readyState === this.socketRef.OPEN) {
+        this.socketRef.send(JSON.stringify({ ...data }));
+      }
     }
     catch (err) {
       console.log(err.message);

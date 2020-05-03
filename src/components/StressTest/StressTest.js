@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import WebSocketInstance from '../../services/WebSocket'
 
 const StressTest = () => {
@@ -7,9 +8,9 @@ const StressTest = () => {
         endTime: 0
     });
 
-    const [numMessages, setNumMessages] = useState(1)
+    const [numMessages, setNumMessages] = useState(100)
     const [message, setMessage] = useState('test test test')
-    // const timeData = 1;
+    // const timeData = 1;localhost:8000
     const startTest = () => {
         const messageObject = {
             from: 'tester',
@@ -27,6 +28,8 @@ const StressTest = () => {
     return (
         <div>
             <h1>Stress test</h1>
+            <Link to="/">Home</Link>
+            <br />
             <label htmlFor="numberOfMessages">number of messages: </label>
             <input id="numberOfMessages" name="numberOfMessages" type="number" placeholder="number of messages" value={numMessages} onChange={e => setNumMessages(e.target.value)} />
             <br />
